@@ -71,10 +71,10 @@ dmypy.json
 .pyre/
 
 # pyenv
+temp_auto_push.bat
 .python-version
 
 # IDEs
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -145,4 +145,4 @@ local_settings.py
 *.key
 *.crt
 secrets/
-EOF
+EOFbranch_structure.json
