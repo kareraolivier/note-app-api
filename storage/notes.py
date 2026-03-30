@@ -5,21 +5,19 @@ from datetime import date
 from typing import List, Optional, Dict, Any
 
 class NotesStorage:
-    """CSV-based storage for notes"""
     
     def __init__(self, filename: str = "notes.csv"):
         self.filename = filename
         self._init_csv()
     
     def _init_csv(self):
-        """Create CSV file with headers if it doesn't exist"""
         if not os.path.exists(self.filename):
             with open(self.filename, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f)
                 writer.writerow(['id', 'title', 'content', 'created_at'])
     
     def _read_all(self) -> List[Dict[str, Any]]:
-        """Read all notes from CSV"""
+       
         notes = []
         if not os.path.exists(self.filename):
             return notes
@@ -36,21 +34,21 @@ class NotesStorage:
         return notes
     
     def _write_all(self, notes: List[Dict[str, Any]]):
-        """Write all notes to CSV"""
+    
         with open(self.filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=['id', 'title', 'content', 'created_at'])
             writer.writeheader()
             writer.writerows(notes)
     
     def _next_id(self) -> int:
-        """Get next available ID"""
+       
         notes = self._read_all()
         if not notes:
             return 1
         return max(n['id'] for n in notes) + 1
     
     def create(self, title: str, content: str) -> Dict[str, Any]:
-        """Create a new note"""
+      
         notes = self._read_all()
         new_id = self._next_id()
         
@@ -66,7 +64,7 @@ class NotesStorage:
         return new_note
     
     def get_all(self, title_filter: Optional[str] = None) -> List[Dict[str, Any]]:
-        """Get all notes with optional title filter"""
+       
         notes = self._read_all()
         
         if title_filter:
@@ -79,7 +77,7 @@ class NotesStorage:
         return notes
     
     def get_by_id(self, note_id: int) -> Optional[Dict[str, Any]]:
-        """Get a single note by ID"""
+      
         notes = self._read_all()
         for note in notes:
             if note['id'] == note_id:
@@ -87,7 +85,7 @@ class NotesStorage:
         return None
     
     def update(self, note_id: int, title: Optional[str] = None, content: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        """Update a note"""
+
         notes = self._read_all()
         
         for i, note in enumerate(notes):
@@ -103,7 +101,7 @@ class NotesStorage:
         return None
     
     def delete(self, note_id: int) -> bool:
-        """Delete a note"""
+  
         notes = self._read_all()
         
         for i, note in enumerate(notes):
@@ -115,7 +113,7 @@ class NotesStorage:
         return False
     
     def get_paginated(self, page: int = 1, limit: int = 10, title_filter: Optional[str] = None) -> dict:
-        """Get paginated notes"""
+     
         all_notes = self.get_all(title_filter)
         total = len(all_notes)
         total_pages = (total + limit - 1) // limit if total > 0 else 1

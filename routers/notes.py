@@ -8,12 +8,11 @@ from storage.notes import NotesStorage
 
 router = APIRouter(prefix="/notes", tags=["notes"])
 
-# Initialize storage
 storage = NotesStorage()
 
 @router.post("/", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_note(note: NoteCreate):
-    """Create a new note"""
+  
     result = storage.create(note.title, note.content)
     return result
 
@@ -23,18 +22,18 @@ async def get_notes(
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
     title: Optional[str] = Query(None, description="Filter by title")
 ):
-    """Get all notes with pagination"""
+   
     return storage.get_paginated(page=page, limit=limit, title_filter=title)
 
 @router.get("/all", response_model=list[NoteResponse])
 async def get_all_notes():
-    """Get all notes without pagination"""
+    
     notes = storage.get_all()
     return notes
 
 @router.get("/{note_id}", response_model=NoteResponse)
 async def get_note(note_id: int):
-    """Get a single note by ID"""
+    
     note = storage.get_by_id(note_id)
     if not note:
         raise HTTPException(
@@ -45,7 +44,7 @@ async def get_note(note_id: int):
 
 @router.put("/{note_id}", response_model=NoteResponse)
 async def update_note(note_id: int, note: NoteUpdate):
-    """Update a note"""
+   
     updated = storage.update(note_id, note.title, note.content)
     if not updated:
         raise HTTPException(
@@ -56,7 +55,7 @@ async def update_note(note_id: int, note: NoteUpdate):
 
 @router.delete("/{note_id}", response_model=DeleteResponse)
 async def delete_note(note_id: int):
-    """Delete a note"""
+   
     note = storage.get_by_id(note_id)
     if not note:
         raise HTTPException(
