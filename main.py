@@ -7,6 +7,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
 app.include_router(notes.router)
 
 @app.get("/")
@@ -16,7 +17,9 @@ async def root():
         "endpoints": {
             "POST /notes": "Create a new note",
             "GET /notes": "Get all notes",
-           
+            "GET /notes/{id}": "Get a specific note",
+            "PUT /notes/{id}": "Update a note",
+            "DELETE /notes/{id}": "Delete a note"
         }
     }
 
