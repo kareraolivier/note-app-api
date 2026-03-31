@@ -1,23 +1,20 @@
 from datetime import date
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field
+from typing import Optional, List
 
 class NoteCreate(BaseModel):
-   
-    title: str
-    content: str
+    title: str = Field(..., min_length=1, max_length=200)
+    content: str = Field(..., min_length=1, max_length=5000)
 
 class NoteUpdate(BaseModel):
-   
-    title: Optional[str] = None
-    content: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=200)
+    content: Optional[str] = Field(None, min_length=1, max_length=5000)
 
 class NoteResponse(BaseModel):
-  
     id: int
     title: str
     content: str
-    created_at: date
+    created_at: str
     
     class Config:
         from_attributes = True
@@ -25,3 +22,11 @@ class NoteResponse(BaseModel):
 class DeleteResponse(BaseModel):
     message: str
     success: bool
+    deleted_note_id: int
+
+class PaginatedResponse(BaseModel):
+    total: int
+    page: int
+    limit: int
+    total_pages: int
+    data: List[NoteResponse]

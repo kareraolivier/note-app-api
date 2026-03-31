@@ -1,10 +1,21 @@
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from routers import notes
 
 app = FastAPI(
-    title="NotesApp API",
-    description="A simple NotesApp API",
+    title="Notes API",
+    description="A simple Notes API with CSV storage",
     version="1.0.0"
+)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -14,14 +25,10 @@ app.include_router(notes.router)
 async def root():
     return {
         "message": "Welcome to the Notes API!",
-        "endpoints": {
-            "POST /notes": "Create a new note",
-            "GET /notes": "Get all notes",
-            "GET /notes/{id}": "Get a specific note",
-            "PUT /notes/{id}": "Update a note",
-            "DELETE /notes/{id}": "Delete a note"
+    
+ 
         }
-    }
+    
 
 if __name__ == "__main__":
     import uvicorn
