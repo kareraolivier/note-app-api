@@ -1,0 +1,21 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "ft/add-csv-storage",
+    "ft/building-todo-app-apis",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "ft/add-csv-storage": "main",
+    "ft/building-todo-app-apis": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "ft/add-csv-storage",
+    "ft/building-todo-app-apis",
+    "origin"
+  ]
+}
